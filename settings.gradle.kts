@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "android-img-processing"
 include(":app")
+include(":OpenCV")
