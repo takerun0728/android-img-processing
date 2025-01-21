@@ -1,5 +1,6 @@
 package com.example.android_img_processing
 
+import android.R
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
@@ -12,7 +13,9 @@ import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2
 import org.opencv.android.OpenCVLoader
 import org.opencv.core.CvType
 import org.opencv.core.Mat
-
+import org.opencv.core.Point
+import org.opencv.core.Scalar
+import org.opencv.imgproc.Imgproc
 
 class MainActivity : CameraActivity(), CvCameraViewListener2  {
 
@@ -51,11 +54,16 @@ class MainActivity : CameraActivity(), CvCameraViewListener2  {
 
     override fun onCameraViewStopped() {
         m.release()
+        release()
     }
 
     override fun onCameraFrame(inputFrame: CvCameraViewFrame): Mat {
         m = inputFrame.rgba()
-        calcOpticalFlow(m.nativeObjAddr)
+        var r = FloatArray(4)
+        calcOpticalFlow(m.nativeObjAddr, r)
+        Imgproc.putText(m, "%6.2f, %6.2f".format(r[0], r[2]), Point(10.0, 30.0), 3, 1.0, Scalar(255.0, 255.0, 255.0), 2)
+        Imgproc.putText(m, "%6.2f, %6.2f".format(r[1], r[3]), Point(10.0, 60.0), 3, 1.0, Scalar(255.0, 255.0, 255.0), 2)
+
         return m
     }
 
@@ -78,6 +86,6 @@ class MainActivity : CameraActivity(), CvCameraViewListener2  {
         openCvCameraView.disableView()
     }
 
-    external fun calcOpticalFlow(matAddr: Long, resultAddr: Long)
+    external fun calcOpticalFlow(matAddr: Long, resultAddr: FloatArray)
     external fun release()
 }

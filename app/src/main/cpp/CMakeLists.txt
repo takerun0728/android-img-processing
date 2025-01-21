@@ -24,7 +24,8 @@ project("android_img_processing")
 # System.loadLibrary() and pass the name of the library defined here;
 # for GameActivity/NativeActivity derived applications, the same library name must be
 # used in the AndroidManifest.xml file.
-set(OpenCV_DIR C:/Users/catsa/projects/OpenCV-android-sdk/sdk/native/jni)
+
+set(OpenCV_DIR ${PROJECT_SOURCE_DIR}/../../../../../OpenCV-android-sdk/sdk/native/jni)
 find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 
